@@ -46,13 +46,14 @@ class Request(dict):
         'parsed_json', 'parsed_args', 'parsed_form', 'parsed_files',
     )
 
-    def __init__(self, url_bytes, headers, version, method):
+    def __init__(self, url_bytes, headers, version, method, transport):
         # TODO: Content-Encoding detection
         url_parsed = parse_url(url_bytes)
         self.url = url_parsed.path.decode('utf-8')
         self.headers = headers
         self.version = version
         self.method = method
+        self.transport = transport
         self.query_string = None
         if url_parsed.query:
             self.query_string = url_parsed.query.decode('utf-8')
@@ -138,6 +139,10 @@ class Request(dict):
             else:
                 self._cookies = {}
         return self._cookies
+
+    @property
+    def ip(self):
+        return self.transport.get_extra_info('peername')
 
 
 File = namedtuple('File', ['type', 'body', 'name'])
