@@ -41,7 +41,7 @@ class Request(dict):
     Properties of an HTTP request such as URL, headers, etc.
     """
     __slots__ = (
-        'url', 'headers', 'version', 'method', '_cookies',
+        'url', 'headers', 'version', 'method', '_cookies', 'transport'
         'query_string', 'body',
         'parsed_json', 'parsed_args', 'parsed_form', 'parsed_files',
     )
