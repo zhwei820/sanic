@@ -3,6 +3,7 @@ from collections import namedtuple
 from http.cookies import SimpleCookie
 from httptools import parse_url
 from urllib.parse import parse_qs, urlunparse
+import warnings
 
 try:
     from ujson import loads as json_loads
@@ -77,6 +78,11 @@ class Request(dict):
 
         :return: token related to request
         """
+        if self.debug:
+            warnings.simplefilter('default')
+        warnings.warn("The behavior of the token attribute has recently "
+                      "changed to return the full authorization header. "
+                      "See https://github.com/channelcat/sanic/pull/649")
         return self.headers.get('Authorization', None)
 
     @property
